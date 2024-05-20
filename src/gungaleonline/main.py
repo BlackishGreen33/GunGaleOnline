@@ -1,4 +1,5 @@
 import pygame
+from config import *
 from scene import *
 
 
@@ -6,25 +7,12 @@ class Game:
     def __init__(self):
         pygame.init()
 
-        self.fps = 120
         self.running = True
 
-        self.colors = {
-            "background": (125, 112, 113),
-            "text": (223, 246, 245),
-            "shadows": (48, 44, 46),
-        }
-
-        self.screen_width, self.screen_height = 1024, 576
-        self.screen_dimensions = (self.screen_width, self.screen_height)
-
-        self.render_width, self.render_height = 1024, 576
-        self.render_dimensions = (self.render_width, self.render_height)
-
-        self.font = pygame.font.Font("src/data/font/font.ttf", 15)
-        self.screen = pygame.display.set_mode(self.screen_dimensions)
         self.clock = pygame.time.Clock()
-        self.render_surface = pygame.Surface(self.render_dimensions)
+        self.font = pygame.font.Font(FONT_LOCATION, FONT_SIZE)
+        self.screen = pygame.display.set_mode(WINDOW_DIMENSIONS)
+        self.render_surface = pygame.Surface(WINDOW_DIMENSIONS)
 
         self.input = []
 
@@ -45,46 +33,38 @@ class Game:
 
     def run(self):
         while self.running:
-            self.clock.tick(self.fps)
-
+            self.clock.tick(FPS)
             self.handle_input()
-
-            self.active_scene.update(self.render_surface, self.input)
-
-            self.render_surface.blit(
-                self.font.render(
-                    "fps: " + str(round(self.clock.get_fps(), 2)),
-                    True,
-                    self.colors["text"],
-                ),
-                (5, 5),
-            )
-            self.screen.blit(
-                pygame.transform.scale(self.render_surface, self.screen_dimensions),
-                (0, 0),
-            )
-            pygame.display.update()
-
-            if self.active_scene.next_scene:
-                self.active_scene = self.active_scene.next_scene
-                if isinstance(self.active_scene, MainMenuScene):
-                    pygame.display.set_caption("Gun Gale Online: MainMenu")
-                elif isinstance(self.active_scene, ClientScene):
-                    pygame.display.set_caption("Gun Gale Online: Client")
-                elif isinstance(self.active_scene, HostScene):
-                    pygame.display.set_caption("Gun Gale Online: Host")
+            self.update_scene()
+            self.render_scene()
+            self.update_screen()
 
     def handle_input(self):
         self.input = pygame.event.get()
         for event in self.input:
-            if event.type == pygame.QUIT:
+            if event.type == pygame.QUIT or (
+                event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE
+            ):
                 self.active_scene.stop()
                 self.running = False
 
-            elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
-                    self.active_scene.stop()
-                    self.running = False
+    def update_scene(self):
+        self.active_scene.update(self.render_surface, self.input)
+
+    def render_scene(self):
+        fps_text = "fps: " + str(round(self.clock.get_fps(), 2))
+        self.render_surface.blit(
+            self.font.render(fps_text, True, COLOR["text"]), (5, 5)
+        )
+        self.screen.blit(
+            pygame.transform.scale(self.render_surface, WINDOW_DIMENSIONS), (0, 0)
+        )
+        pygame.display.update()
+
+    def update_screen(self):
+        pygame.display.set_caption(
+            WINDOW_COPTION + ": " + self.active_scene.__class__.__name__
+        )
 
 
 if __name__ == "__main__":
