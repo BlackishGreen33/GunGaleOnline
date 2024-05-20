@@ -1,6 +1,7 @@
 import time
 
 import pygame
+from config import *
 from player import *
 
 
@@ -19,46 +20,40 @@ class Hud:
         self.last_time = time.time()
         self.dt = 1
 
-        self.font = pygame.font.Font("src/data/font/font.ttf", 10)
-
-        self.colors = {
-            "black": (0, 0, 0),
-            "text": (223, 246, 245),
-            "selected_weapon": (223, 246, 245),
-        }
+        self.font = pygame.font.Font(FONT_PATH, FONT_SIZE_XS)
 
         self.heart_images = [
-            pygame.image.load("src/data/sprites/icons/heart.png").convert_alpha(),
-            pygame.image.load("src/data/sprites/icons/heart_half.png").convert_alpha(),
-            pygame.image.load("src/data/sprites/icons/heart_empty.png").convert_alpha(),
+            pygame.image.load(ICONS_PATH + "heart.png").convert_alpha(),
+            pygame.image.load(ICONS_PATH + "heart_half.png").convert_alpha(),
+            pygame.image.load(ICONS_PATH + "heart_empty.png").convert_alpha(),
         ]
 
         self.bullet_images = [
-            pygame.image.load("src/data/sprites/icons/bullet.png").convert_alpha(),
+            pygame.image.load(ICONS_PATH + "bullet.png").convert_alpha(),
             pygame.image.load(
-                "src/data/sprites/icons/bullet_empty.png"
+                ICONS_PATH + "bullet_empty.png"
             ).convert_alpha(),
         ]
 
         self.weapon_images = [
-            pygame.image.load("src/data/sprites/icons/knife.png").convert_alpha(),
-            pygame.image.load("src/data/sprites/icons/pistol.png").convert_alpha(),
-            pygame.image.load("src/data/sprites/icons/rifle.png").convert_alpha(),
+            pygame.image.load(ICONS_PATH + "knife.png").convert_alpha(),
+            pygame.image.load(ICONS_PATH + "pistol.png").convert_alpha(),
+            pygame.image.load(ICONS_PATH + "rifle.png").convert_alpha(),
         ]
 
         self.reload_images = [
-            pygame.image.load("src/data/sprites/icons/reload_1.png").convert_alpha(),
-            pygame.image.load("src/data/sprites/icons/reload_2.png").convert_alpha(),
-            pygame.image.load("src/data/sprites/icons/reload_3.png").convert_alpha(),
-            pygame.image.load("src/data/sprites/icons/reload_4.png").convert_alpha(),
-            pygame.image.load("src/data/sprites/icons/reload_5.png").convert_alpha(),
+            pygame.image.load(ICONS_PATH + "reload_1.png").convert_alpha(),
+            pygame.image.load(ICONS_PATH + "reload_2.png").convert_alpha(),
+            pygame.image.load(ICONS_PATH + "reload_3.png").convert_alpha(),
+            pygame.image.load(ICONS_PATH + "reload_4.png").convert_alpha(),
+            pygame.image.load(ICONS_PATH + "reload_5.png").convert_alpha(),
         ]
 
         self.border_20x20 = pygame.image.load(
-            "src/data/sprites/icons/border_20x20.png"
+            ICONS_PATH + "border_20x20.png"
         ).convert_alpha()
         self.border_36x20 = pygame.image.load(
-            "src/data/sprites/icons/border_36x20.png"
+            ICONS_PATH + "border_36x20.png"
         ).convert_alpha()
 
         self.heart_render = pygame.Surface(
@@ -67,7 +62,7 @@ class Hud:
                 self.heart_images[0].get_height(),
             )
         )
-        self.heart_render.set_colorkey(self.colors["black"])
+        self.heart_render.set_colorkey(COLOR["black"])
 
         self.bullets_render = pygame.Surface(
             (
@@ -76,7 +71,7 @@ class Hud:
                 * int((self.player.rifle_max_ammo / 10)),
             )
         )
-        self.bullets_render.set_colorkey(self.colors["black"])
+        self.bullets_render.set_colorkey(COLOR["black"])
 
         self.weapons_render = pygame.Surface(
             (
@@ -84,12 +79,12 @@ class Hud:
                 (self.border_36x20.get_height() + 5) * len(self.weapon_images),
             )
         )
-        self.weapons_render.set_colorkey(self.colors["black"])
+        self.weapons_render.set_colorkey(COLOR["black"])
 
         self.reload_render = pygame.Surface(
             (self.reload_images[0].get_width(), self.reload_images[0].get_height())
         )
-        self.reload_render.set_colorkey(self.colors["black"])
+        self.reload_render.set_colorkey(COLOR["black"])
 
         self.render_hearts()
         self.render_bullets()
@@ -156,7 +151,7 @@ class Hud:
             )
 
     def render_hearts(self):
-        self.heart_render.fill(self.colors["black"])
+        self.heart_render.fill(COLOR["black"])
 
         x = 0
         for i in range(int(self.player.hearts)):
@@ -185,9 +180,9 @@ class Hud:
                 * int((self.player.ammo[0] / 10)),
             )
         )
-        self.bullets_render.set_colorkey(self.colors["black"])
+        self.bullets_render.set_colorkey(COLOR["black"])
 
-        self.bullets_render.fill(self.colors["black"])
+        self.bullets_render.fill(COLOR["black"])
 
         full = self.player.ammo[1]
         empty = self.player.ammo[0] - full
@@ -221,11 +216,11 @@ class Hud:
                 y += 1
 
     def render_weapons(self):
-        self.weapons_render.fill(self.colors["black"])
+        self.weapons_render.fill(COLOR["black"])
 
         if self.player.active_weapon == "rifle":
             pygame.draw.rect(
-                self.weapons_render, self.colors["selected_weapon"], (4, 4, 64, 32)
+                self.weapons_render, COLOR["selected_weapon"], (4, 4, 64, 32)
             )
         self.weapons_render.blit(self.border_36x20, (0, 0))
         self.weapons_render.blit(self.weapon_images[2], (4, 4))
@@ -233,7 +228,7 @@ class Hud:
         if self.player.active_weapon == "pistol":
             pygame.draw.rect(
                 self.weapons_render,
-                self.colors["selected_weapon"],
+                COLOR["selected_weapon"],
                 (4 + 32, self.border_36x20.get_height() + 5 + 4, 32, 32),
             )
         self.weapons_render.blit(
@@ -246,7 +241,7 @@ class Hud:
         if self.player.active_weapon == "knife":
             pygame.draw.rect(
                 self.weapons_render,
-                self.colors["selected_weapon"],
+                COLOR["selected_weapon"],
                 (4 + 32, self.border_36x20.get_height() * 2 + 5 * 2 + 4, 32, 32),
             )
         self.weapons_render.blit(
@@ -258,7 +253,7 @@ class Hud:
         )
 
     def render_reload(self, progress):
-        self.reload_render.fill(self.colors["black"])
+        self.reload_render.fill(COLOR["black"])
 
         if progress < 0.25:
             self.reload_render.blit(self.reload_images[0], (0, 0))

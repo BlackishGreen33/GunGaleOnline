@@ -1,25 +1,22 @@
 import pygame
 
+from config import COLOR, FONT_PATH, FONT_SIZE_MD
+
 
 class Button:
-    def __init__(self, title, rect: pygame.Rect, image=None, color=None):
+    def __init__(self, title, rect: pygame.Rect, image=None):
         self.title = title
         self.rect = rect
         self.image = image
-        self.color = color
 
-        self.colors = {"black": (0, 0, 0), "text": (223, 246, 245)}
-
-        self.font = pygame.font.Font("src/data/font/font.ttf", 20)
+        self.font = pygame.font.Font(FONT_PATH, FONT_SIZE_MD)
 
         if not self.image:
             self.image = pygame.Surface((self.rect.width, self.rect.height))
-            self.image.set_colorkey(self.colors["black"])
-
-            self.image.fill(self.color)
+            self.image.set_colorkey(COLOR["black"])
 
             self.image.blit(
-                self.font.render(self.title, True, self.colors["text"]), (0, 0)
+                self.font.render(self.title, True, COLOR["text"]), (0, 0)
             )
 
         self.pressed = False
@@ -50,16 +47,10 @@ class Input:
         self.active = False
         self.text = ""
 
-        self.colors = {
-            "black": (0, 0, 0),
-            "text_preset": (223, 246, 245),
-            "text": (48, 44, 46),
-        }
-
-        self.font = pygame.font.Font("src/data/font/font.ttf", 20)
+        self.font = pygame.font.Font(FONT_PATH, FONT_SIZE_MD)
 
         self.render_surface = pygame.Surface((self.rect.width, self.rect.height))
-        self.render_surface.set_colorkey(self.colors["black"])
+        self.render_surface.set_colorkey(COLOR["black"])
 
         self.pre_render()
 
@@ -97,11 +88,11 @@ class Input:
         self.render_surface.blit(self.image, (image_x, image_y))
 
         if self.text != "":
-            text_render = self.font.render(self.text, True, self.colors["text"])
+            text_render = self.font.render(self.text, True, COLOR["text_input"])
             text_x = 10
             text_y = self.rect.height / 2 - text_render.get_height() / 2
         else:
-            text_render = self.font.render(self.title, True, self.colors["text_preset"])
+            text_render = self.font.render(self.title, True, COLOR["text"])
             text_x = 10
             text_y = self.rect.height / 2 - text_render.get_height() / 2
 
@@ -116,22 +107,15 @@ class Text:
         self.title = title
         self.text = text
 
-        self.colors = {
-            "black": (0, 0, 0),
-            "text_preset": (223, 246, 245),
-            "background": (125, 112, 113),
-            "text": color,
-        }
-
-        self.font = pygame.font.Font("src/data/font/font.ttf", 20)
+        self.font = pygame.font.Font(FONT_PATH, FONT_SIZE_MD)
 
         self.text_render = self.font.render(
-            self.text, True, self.colors["text"], self.colors["background"]
+            self.text, True, color, COLOR["background"]
         )
         self.rect = self.text_render.get_rect()
 
         self.render_surface = pygame.Surface((self.rect.width, self.rect.height))
-        self.render_surface.set_colorkey(self.colors["black"])
+        self.render_surface.set_colorkey(COLOR["black"])
 
         self.render_surface.blit(self.text_render, (0, 0))
 
@@ -149,17 +133,11 @@ class Menu:
             content = []
         self.content = content[:]
 
-        self.colors = {
-            "black": (0, 0, 0),
-            "background": (125, 112, 113),
-            "text": (223, 246, 245),
-        }
-
         self.content_space = 15
-        self.font = pygame.font.Font("src/data/font/font.ttf", 20)
-        self.title_font = pygame.font.Font("src/data/font/font.ttf", 30)
+        self.font = pygame.font.Font(FONT_PATH, FONT_SIZE_MD)
+        self.title_font = pygame.font.Font(FONT_PATH, 30)
         self.title_render = self.title_font.render(
-            self.title, True, self.colors["text"], self.colors["background"]
+            self.title, True, COLOR["text"], COLOR["background"]
         )
 
         self.width = self.title_render.get_width()
@@ -232,7 +210,7 @@ class Menu:
                 self.width = c.rect.width
 
         self.render_surface = pygame.Surface((self.width, self.height))
-        self.render_surface.set_colorkey(self.colors["black"])
+        self.render_surface.set_colorkey(COLOR["black"])
 
         self.rect = self.render_surface.get_rect()
         self.rect.topleft = self.position

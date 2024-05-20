@@ -4,6 +4,8 @@ import pygame
 from scipy import spatial
 from shapely import geometry, ops
 
+from config import COLOR
+
 
 class Shadow:
     def __init__(self, rect, polygon):
@@ -13,21 +15,14 @@ class Shadow:
 
 
 class ShadowCaster:
-    def __init__(self, player, map, shadow_color):
+    def __init__(self, player, map):
         self.player = player
         self.map = map
         self.render_width = 1024
         self.render_height = 576
 
-        self.colors = {
-            "black": (0, 0, 0),
-            "shadows": shadow_color,
-            "green": (0, 255, 0),
-            "red": (255, 0, 0),
-        }
-
         self.render_surface = pygame.Surface((self.render_width, self.render_height))
-        self.render_surface.set_colorkey(self.colors["black"])
+        self.render_surface.set_colorkey(COLOR["black"])
 
         self.last_player_center = (0, 0)
 
@@ -40,7 +35,7 @@ class ShadowCaster:
                 int(self.player.center[0]),
                 int(self.player.center[1]),
             )
-            self.render_surface.fill(self.colors["black"])
+            self.render_surface.fill(COLOR["black"])
 
             for wall in self.map.inside_walls:
                 nearest_point = list(
@@ -106,21 +101,19 @@ class ShadowCaster:
                     new_points.append(new_point)
 
                     if debug:
+                        pygame.draw.circle(self.render_surface, COLOR["red"], corner, 2)
                         pygame.draw.circle(
-                            self.render_surface, self.colors["red"], corner, 2
-                        )
-                        pygame.draw.circle(
-                            self.render_surface, self.colors["green"], new_point, 2
+                            self.render_surface, COLOR["green"], new_point, 2
                         )
 
                         pygame.draw.aaline(
                             self.render_surface,
-                            self.colors["red"],
+                            COLOR["red"],
                             self.player.center,
                             corner,
                         )
                         pygame.draw.aaline(
-                            self.render_surface, self.colors["green"], corner, new_point
+                            self.render_surface, COLOR["green"], corner, new_point
                         )
 
                 x_values = [i[0] for i in new_points]
@@ -174,9 +167,7 @@ class ShadowCaster:
                 shadow_rect = pygame.Rect(x, y, width, height)
                 wall_shadows.append(Shadow(shadow_rect, shadow_shape))
 
-                pygame.draw.polygon(
-                    self.render_surface, self.colors["shadows"], shadow_shape
-                )
+                pygame.draw.polygon(self.render_surface, COLOR["shadows"], shadow_shape)
 
     def render(self, surface):
         surface.blit(self.render_surface, (0, 0))

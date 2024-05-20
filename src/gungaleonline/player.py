@@ -5,6 +5,8 @@ import time
 import bullet
 import pygame
 
+from config import ANIMATIONS_PATH
+
 
 def load_animation(path, length):
     animation = []
@@ -29,9 +31,9 @@ class RemotePlayer:
         self.active_weapon = "pistol"
         self.hearts = 3
 
-        self.knife_frames = load_animation("src/data/sprites/animations/knife_", 2)
-        self.pistol_frames = load_animation("src/data/sprites/animations/pistol_", 2)
-        self.rifle_frames = load_animation("src/data/sprites/animations/rifle_", 2)
+        self.knife_frames = load_animation(ANIMATIONS_PATH + "knife_", 2)
+        self.pistol_frames = load_animation(ANIMATIONS_PATH + "pistol_", 2)
+        self.rifle_frames = load_animation(ANIMATIONS_PATH + "rifle_", 2)
 
         self.image = self.pistol_frames[0]
         self.rect = self.image.get_rect(center=self.center)
@@ -117,9 +119,9 @@ class Player:
         self.dx = 0
         self.dy = 0
 
-        self.knife_frames = load_animation("src/data/sprites/animations/knife_", 2)
-        self.pistol_frames = load_animation("src/data/sprites/animations/pistol_", 2)
-        self.rifle_frames = load_animation("src/data/sprites/animations/rifle_", 2)
+        self.knife_frames = load_animation(ANIMATIONS_PATH + "knife_", 2)
+        self.pistol_frames = load_animation(ANIMATIONS_PATH + "pistol_", 2)
+        self.rifle_frames = load_animation(ANIMATIONS_PATH + "rifle_", 2)
 
         self.frame = 0
 

@@ -4,6 +4,7 @@ import random
 import threading
 from socket import AF_INET, SOCK_STREAM, socket
 
+from config import *
 import hud
 import map
 import menu
@@ -12,7 +13,7 @@ import pygame
 import shadow_caster
 
 logging.basicConfig(
-    filename="src/data/logs/session.log",
+    filename=ASSETS_PATH + "logs/session.log",
     filemode="w",
     format="%(asctime)s %(levelname)s: %(message)s",
     datefmt="%d.%m.%y %H:%M:%S",
@@ -26,12 +27,6 @@ def log(message):
 
 class MainScene:
     def __init__(self, map_path, team):
-        self.colors = {
-            "background": (125, 112, 113),
-            "text": (223, 246, 245),
-            "shadows": (48, 44, 46),
-        }
-
         self.next_scene = None
 
         self.screen_width, self.screen_height = 1024, 576
@@ -40,21 +35,19 @@ class MainScene:
         self.render_width, self.render_height = 1024, 576
         self.render_dimensions = (self.render_width, self.render_height)
 
-        self.font = pygame.font.Font("src/data/font/font.ttf", 15)
+        self.font = pygame.font.Font(FONT_PATH, FONT_SIZE_SM)
         self.render_surface = pygame.Surface(self.render_dimensions)
 
         self.map = map.Map(map_path)
 
         self.player = player.Player((4 * 32, 3 * 32), self.map, team)
 
-        self.shadow_caster = shadow_caster.ShadowCaster(
-            self.player, self.map, self.colors["shadows"]
-        )
+        self.shadow_caster = shadow_caster.ShadowCaster(self.player, self.map)
 
         self.hud = hud.Hud(self.player)
 
     def update(self, surface, input):
-        self.render_surface.fill(self.colors["background"])
+        self.render_surface.fill(COLOR["background"])
 
         self.handle_input(input)
 
@@ -73,7 +66,7 @@ class MainScene:
             self.font.render(
                 "rotation: " + str(round(self.player.rotation, 2)),
                 True,
-                self.colors["text"],
+                COLOR["text"],
             ),
             (85, 5),
         )
@@ -158,7 +151,7 @@ class HostScene(MainScene):
         self.accept_thread.start()
 
     def update(self, surface, input):
-        self.render_surface.fill(self.colors["background"])
+        self.render_surface.fill(COLOR["background"])
 
         self.handle_input(input)
 
@@ -221,7 +214,7 @@ class HostScene(MainScene):
             self.font.render(
                 "rotation: " + str(round(self.player.rotation, 2)),
                 True,
-                self.colors["text"],
+                COLOR["text"],
             ),
             (85, 5),
         )
@@ -414,7 +407,7 @@ class ClientScene(MainScene):
         self.send(self.build_message(self.client_info))
 
     def update(self, surface, input):
-        self.render_surface.fill(self.colors["background"])
+        self.render_surface.fill(COLOR["background"])
 
         self.handle_input(input)
 
@@ -451,7 +444,7 @@ class ClientScene(MainScene):
             self.font.render(
                 "rotation: " + str(round(self.player.rotation, 2)),
                 True,
-                self.colors["text"],
+                COLOR["text"],
             ),
             (85, 5),
         )
@@ -553,7 +546,7 @@ class ClientScene(MainScene):
 
 class MenuScene:
     def __init__(self, menu):
-        self.colors = {
+        COLOR = {
             "background": (125, 112, 113),
             "text": (223, 246, 245),
             "shadows": (48, 44, 46),
@@ -565,7 +558,7 @@ class MenuScene:
         self.render_width, self.render_height = 1024, 576
         self.render_dimensions = (self.render_width, self.render_height)
 
-        self.font = pygame.font.Font("src/data/font/font.ttf", 15)
+        self.font = pygame.font.Font(FONT_PATH, FONT_SIZE_SM)
         self.render_surface = pygame.Surface(self.render_dimensions)
 
         self.menu = menu
@@ -575,15 +568,15 @@ class MenuScene:
 
 class MainMenuScene(MenuScene):
     def __init__(self):
-        self.input_image = pygame.image.load("src/data/sprites/icons/menu_input.png")
+        self.input_image = pygame.image.load(ICONS_PATH + "menu_input.png")
         self.host_image = pygame.image.load(
-            "src/data/sprites/icons/menu_button_host.png"
+            ICONS_PATH + "menu_button_host.png"
         )
         self.join_image = pygame.image.load(
-            "src/data/sprites/icons/menu_button_join.png"
+            ICONS_PATH + "menu_button_join.png"
         )
         self.settings_image = pygame.image.load(
-            "src/data/sprites/icons/menu_button_settings.png"
+            ICONS_PATH + "menu_button_settings.png"
         )
 
         self.menu_content = [
@@ -607,7 +600,7 @@ class MainMenuScene(MenuScene):
         MenuScene.__init__(self, self.menu)
 
     def update(self, surface, input):
-        self.render_surface.fill(self.colors["background"])
+        self.render_surface.fill(COLOR["background"])
 
         self.handle_input(input)
 
@@ -786,9 +779,9 @@ class CreateHostScene(MenuScene):
     def __init__(self, port):
         self.port = port
 
-        self.input_image = pygame.image.load("src/data/sprites/icons/menu_input.png")
+        self.input_image = pygame.image.load(ICONS_PATH + "menu_input.png")
         self.host_image = pygame.image.load(
-            "src/data/sprites/icons/menu_button_host.png"
+            ICONS_PATH + "menu_button_host.png"
         )
 
         self.menu_content = [
@@ -821,7 +814,7 @@ class CreateHostScene(MenuScene):
         MenuScene.__init__(self, self.menu)
 
     def update(self, surface, input):
-        self.render_surface.fill(self.colors["background"])
+        self.render_surface.fill(COLOR["background"])
 
         self.handle_input(input)
 
@@ -955,7 +948,7 @@ class CreateHostScene(MenuScene):
                 ]
             ):
                 self.next_scene = HostScene(
-                    self.port, "src/data/maps/map_1.csv", name, teams, own_team
+                    self.port, ASSETS_PATH + "maps/map_1.csv", name, teams, own_team
                 )
 
     def handle_input(self, input):
@@ -978,9 +971,9 @@ class CreateJoinScene(MenuScene):
             "teams: " + "".join([t + ", " for t in session_info["teams"]])[:-2]
         )
 
-        self.input_image = pygame.image.load("src/data/sprites/icons/menu_input.png")
+        self.input_image = pygame.image.load(ICONS_PATH + "menu_input.png")
         self.join_image = pygame.image.load(
-            "src/data/sprites/icons/menu_button_join.png"
+            ICONS_PATH + "menu_button_join.png"
         )
 
         self.menu_content = [
@@ -1009,7 +1002,7 @@ class CreateJoinScene(MenuScene):
         MenuScene.__init__(self, self.menu)
 
     def update(self, surface, input):
-        self.render_surface.fill(self.colors["background"])
+        self.render_surface.fill(COLOR["background"])
 
         self.handle_input(input)
 

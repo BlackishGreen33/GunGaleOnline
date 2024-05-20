@@ -10,7 +10,7 @@ class Game:
         self.running = True
 
         self.clock = pygame.time.Clock()
-        self.font = pygame.font.Font(FONT_LOCATION, FONT_SIZE)
+        self.font = pygame.font.Font(FONT_PATH, FONT_SIZE_SM)
         self.screen = pygame.display.set_mode(WINDOW_DIMENSIONS)
         self.render_surface = pygame.Surface(WINDOW_DIMENSIONS)
 

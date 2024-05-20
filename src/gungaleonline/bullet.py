@@ -1,7 +1,7 @@
 import time
 
 import pygame
-from config import FPS
+from config import ANIMATIONS_PATH, FPS
 
 animations = {}
 
@@ -44,7 +44,7 @@ class Bullet:
 
     def _load_frames(self):
         if "bullet_animation" not in animations:
-            self.frames = load_animation("src/data/sprites/animations/bullet_", 3)
+            self.frames = load_animation(ANIMATIONS_PATH + "bullet_", 3)
             animations["bullet_animation"] = self.frames
         else:
             self.frames = animations["bullet_animation"]

@@ -3,6 +3,8 @@ import csv
 import pygame
 from shapely import geometry
 
+from config import COLOR, TILES_PATH
+
 
 class Tile:
     def __init__(self, image, rect):
@@ -70,7 +72,7 @@ class Map:
 
     def render_map(self):
         surface = pygame.Surface((len(self.map[0]) * 32, len(self.map) * 32))
-        surface.set_colorkey((0, 0, 0))
+        surface.set_colorkey(COLOR["black"])
 
         found_h_wall = False
         h_wall = []
@@ -81,7 +83,7 @@ class Map:
             for j, tile in enumerate(line):
                 if tile != "-1":
                     image = pygame.image.load(
-                        f"src/data/sprites/tiles/tile_{tile}.png"
+                        f"{TILES_PATH}tile_{tile}.png"
                     ).convert_alpha()
                     surface.blit(image, (j * 32, i * 32))
 
