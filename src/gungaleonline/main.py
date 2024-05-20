@@ -62,9 +62,11 @@ class Game:
         pygame.display.update()
 
     def update_screen(self):
-        pygame.display.set_caption(
-            WINDOW_COPTION + ": " + self.active_scene.__class__.__name__
-        )
+        if self.active_scene.next_scene:
+            self.active_scene = self.active_scene.next_scene
+            pygame.display.set_caption(
+                f"{WINDOW_COPTION}: {self.active_scene.__class__.__name__}"
+            )
 
 
 if __name__ == "__main__":
