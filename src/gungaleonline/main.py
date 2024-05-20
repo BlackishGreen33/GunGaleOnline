@@ -1,4 +1,5 @@
 import pygame
+
 from config import *
 from scene import *
 
