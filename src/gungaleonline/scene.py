@@ -4,13 +4,13 @@ import random
 import threading
 from socket import AF_INET, SOCK_STREAM, socket
 
-from config import *
 import hud
 import map
 import menu
 import player
 import pygame
 import shadow_caster
+from config import *
 
 logging.basicConfig(
     filename=ASSETS_PATH + "logs/session.log",
@@ -569,15 +569,9 @@ class MenuScene:
 class MainMenuScene(MenuScene):
     def __init__(self):
         self.input_image = pygame.image.load(ICONS_PATH + "menu_input.png")
-        self.host_image = pygame.image.load(
-            ICONS_PATH + "menu_button_host.png"
-        )
-        self.join_image = pygame.image.load(
-            ICONS_PATH + "menu_button_join.png"
-        )
-        self.settings_image = pygame.image.load(
-            ICONS_PATH + "menu_button_settings.png"
-        )
+        self.host_image = pygame.image.load(ICONS_PATH + "menu_button_host.png")
+        self.join_image = pygame.image.load(ICONS_PATH + "menu_button_join.png")
+        self.settings_image = pygame.image.load(ICONS_PATH + "menu_button_settings.png")
 
         self.menu_content = [
             menu.Button("host", self.host_image.get_rect(), image=self.host_image),
@@ -780,9 +774,7 @@ class CreateHostScene(MenuScene):
         self.port = port
 
         self.input_image = pygame.image.load(ICONS_PATH + "menu_input.png")
-        self.host_image = pygame.image.load(
-            ICONS_PATH + "menu_button_host.png"
-        )
+        self.host_image = pygame.image.load(ICONS_PATH + "menu_button_host.png")
 
         self.menu_content = [
             menu.Input(
@@ -972,9 +964,7 @@ class CreateJoinScene(MenuScene):
         )
 
         self.input_image = pygame.image.load(ICONS_PATH + "menu_input.png")
-        self.join_image = pygame.image.load(
-            ICONS_PATH + "menu_button_join.png"
-        )
+        self.join_image = pygame.image.load(ICONS_PATH + "menu_button_join.png")
 
         self.menu_content = [
             menu.Input(

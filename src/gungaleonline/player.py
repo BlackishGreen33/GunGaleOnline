@@ -4,7 +4,6 @@ import time
 
 import bullet
 import pygame
-
 from config import ANIMATIONS_PATH
 
 

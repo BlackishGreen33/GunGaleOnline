@@ -1,5 +1,4 @@
 import pygame
-
 from config import COLOR, FONT_PATH, FONT_SIZE_MD
 
 

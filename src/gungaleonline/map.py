@@ -1,9 +1,8 @@
 import csv
 
 import pygame
-from shapely import geometry
-
 from config import COLOR, TILES_PATH
+from shapely import geometry
 
 
 class Tile:

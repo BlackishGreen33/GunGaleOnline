@@ -1,10 +1,9 @@
 from threading import Thread
 
 import pygame
+from config import COLOR
 from scipy import spatial
 from shapely import geometry, ops
-
-from config import COLOR
 
 
 class Shadow:
