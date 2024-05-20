@@ -1,8 +1,7 @@
-import pygame
 import time
 
+import pygame
 from config import FPS
-
 
 animations = {}
 
