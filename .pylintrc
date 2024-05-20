@@ -1,0 +1,5 @@
+[MESSAGES CONTROL]
+disable=C,W,R,E0401,E0602
+
+[REPORTS]
+extension-pkg-whitelist=pygame
