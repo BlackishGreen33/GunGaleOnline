@@ -6,7 +6,7 @@ import pygame
 def load_animation(path, length):
     animation = []
     for i in range(length):
-        image = pygame.image.load(f'{path}{i+1}.png').convert_alpha()
+        image = pygame.image.load(f"{path}{i+1}.png").convert_alpha()
         animation.append(image)
     return animation
 
@@ -31,7 +31,7 @@ class Bullet:
         self.last_time = time.time()
         self.dt = 1
 
-        self.frames = load_animation('src/data/sprites/animations/bullet_', 3)
+        self.frames = load_animation("src/data/sprites/animations/bullet_", 3)
 
         self.frame = 0
         self.animation_change = 10
@@ -46,13 +46,19 @@ class Bullet:
         self.last_time = time.time()
 
         if not self.collided:
-            self.center = (self.center[0] + min(self.direction[0] * self.dt, 33), self.center[1] + min(self.direction[1] * self.dt, 33))
+            self.center = (
+                self.center[0] + min(self.direction[0] * self.dt, 33),
+                self.center[1] + min(self.direction[1] * self.dt, 33),
+            )
             self.rect.center = self.center
 
             for wall in self.map.walls:
                 if self.rect.colliderect(wall.rect):
                     while wall.rect.collidepoint(self.center):
-                        self.center = (self.center[0] - self.one_direction[0] * self.dt, self.center[1] - self.one_direction[1] * self.dt)
+                        self.center = (
+                            self.center[0] - self.one_direction[0] * self.dt,
+                            self.center[1] - self.one_direction[1] * self.dt,
+                        )
                     self.rect.center = self.center
                     self.collided = True
                     break

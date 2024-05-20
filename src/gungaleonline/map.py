@@ -9,7 +9,12 @@ class Tile:
         self.image = image
         self.rect: pygame.Rect = rect
         self.mask = pygame.mask.from_surface(self.image)
-        self.corners = [self.rect.topleft, self.rect.topright, self.rect.bottomright, self.rect.bottomleft]
+        self.corners = [
+            self.rect.topleft,
+            self.rect.topright,
+            self.rect.bottomright,
+            self.rect.bottomleft,
+        ]
 
 
 class Wall:
@@ -30,7 +35,12 @@ class Wall:
         self.distance = 0
 
         self.rect = pygame.Rect(x, y, width, height)
-        self.corners = [self.rect.topleft, self.rect.topright, self.rect.bottomright, self.rect.bottomleft]
+        self.corners = [
+            self.rect.topleft,
+            self.rect.topright,
+            self.rect.bottomright,
+            self.rect.bottomleft,
+        ]
         self.shapely = geometry.Polygon(self.corners)
 
         self.image = pygame.Surface((width, height))
@@ -46,7 +56,7 @@ class Wall:
 class Map:
     def __init__(self, path):
         with open(path) as file:
-            csv_content = csv.reader(file, delimiter=',')
+            csv_content = csv.reader(file, delimiter=",")
             self.map = [line for line in csv_content]
 
         self.image = None
@@ -69,38 +79,40 @@ class Map:
 
         for i, line in enumerate(self.map):
             for j, tile in enumerate(line):
-                if tile != '-1':
-                    image = pygame.image.load(f'src/data/sprites/tiles/tile_{tile}.png').convert_alpha()
+                if tile != "-1":
+                    image = pygame.image.load(
+                        f"src/data/sprites/tiles/tile_{tile}.png"
+                    ).convert_alpha()
                     surface.blit(image, (j * 32, i * 32))
 
                     tile_object = Tile(image, pygame.Rect(j * 32, i * 32, 32, 32))
                     self.tiles.append(tile_object)
 
-                    if tile in ['0', '1', '2']:
-                        if tile == '0':
+                    if tile in ["0", "1", "2"]:
+                        if tile == "0":
                             found_h_wall = True
 
                         if found_h_wall:
                             h_wall.append(tile_object)
 
-                        if tile == '2':
+                        if tile == "2":
                             found_h_wall = False
                             self.walls.append(Wall(h_wall))
                             if i != 0 and i != 17:
                                 self.inside_walls.append(Wall(h_wall))
                             h_wall.clear()
 
-                    if tile in ['3', '4', '5']:
-                        if tile == '3':
+                    if tile in ["3", "4", "5"]:
+                        if tile == "3":
                             v_walls.append([j, tile_object])
 
-                        if tile == '4':
+                        if tile == "4":
                             for w in v_walls:
                                 if w[0] == j:
                                     w.append(tile_object)
                                     break
 
-                        if tile == '5':
+                        if tile == "5":
                             for w in v_walls:
                                 if w[0] == j:
                                     w.append(tile_object)
@@ -110,10 +122,9 @@ class Map:
                                     v_walls.remove(w)
                                     break
 
-                    if tile == '6':
+                    if tile == "6":
                         self.walls.append(Wall([tile_object]))
                         if i != 0 and i != 17 and j != 0 and j != 31:
                             self.inside_walls.append(Wall([tile_object]))
 
         self.image = surface
-

@@ -10,9 +10,9 @@ class Game:
         self.running = True
 
         self.colors = {
-            'background': (125, 112, 113),
-            'text': (223, 246, 245),
-            'shadows': (48, 44, 46)
+            "background": (125, 112, 113),
+            "text": (223, 246, 245),
+            "shadows": (48, 44, 46),
         }
 
         self.screen_width, self.screen_height = 1024, 576
@@ -21,14 +21,14 @@ class Game:
         self.render_width, self.render_height = 1024, 576
         self.render_dimensions = (self.render_width, self.render_height)
 
-        self.font = pygame.font.Font('src/data/font/font.ttf', 15)
+        self.font = pygame.font.Font("src/data/font/font.ttf", 15)
         self.screen = pygame.display.set_mode(self.screen_dimensions)
         self.clock = pygame.time.Clock()
         self.render_surface = pygame.Surface(self.render_dimensions)
 
         self.input = []
 
-        '''mode = input('Mode: ')
+        """mode = input('Mode: ')
         if mode == '1':
             self.main_scene = scene.HostScene('src/data/maps/map_1.csv')
             self.active_scene = self.main_scene
@@ -39,7 +39,7 @@ class Game:
             # self.main_scene = scene.ClientScene()
             self.active_scene = self.main_scene
         elif mode == '3':
-            self.active_scene = scene.MainMenuScene()'''
+            self.active_scene = scene.MainMenuScene()"""
 
         self.active_scene = MainMenuScene()
 
@@ -51,18 +51,28 @@ class Game:
 
             self.active_scene.update(self.render_surface, self.input)
 
-            self.render_surface.blit(self.font.render('fps: ' + str(round(self.clock.get_fps(), 2)), True, self.colors['text']), (5, 5))
-            self.screen.blit(pygame.transform.scale(self.render_surface, self.screen_dimensions), (0, 0))
+            self.render_surface.blit(
+                self.font.render(
+                    "fps: " + str(round(self.clock.get_fps(), 2)),
+                    True,
+                    self.colors["text"],
+                ),
+                (5, 5),
+            )
+            self.screen.blit(
+                pygame.transform.scale(self.render_surface, self.screen_dimensions),
+                (0, 0),
+            )
             pygame.display.update()
 
             if self.active_scene.next_scene:
                 self.active_scene = self.active_scene.next_scene
                 if isinstance(self.active_scene, MainMenuScene):
-                    pygame.display.set_caption('Gun Gale Online: MainMenu')
+                    pygame.display.set_caption("Gun Gale Online: MainMenu")
                 elif isinstance(self.active_scene, ClientScene):
-                    pygame.display.set_caption('Gun Gale Online: Client')
+                    pygame.display.set_caption("Gun Gale Online: Client")
                 elif isinstance(self.active_scene, HostScene):
-                    pygame.display.set_caption('Gun Gale Online: Host')
+                    pygame.display.set_caption("Gun Gale Online: Host")
 
     def handle_input(self):
         self.input = pygame.event.get()
@@ -77,6 +87,6 @@ class Game:
                     self.running = False
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     app = Game()
     app.run()

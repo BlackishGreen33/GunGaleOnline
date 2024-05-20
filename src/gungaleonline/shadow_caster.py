@@ -20,25 +20,42 @@ class ShadowCaster:
         self.render_height = 576
 
         self.colors = {
-            'black': (0, 0, 0),
-            'shadows': shadow_color,
-            'green': (0, 255, 0),
-            'red': (255, 0, 0)
+            "black": (0, 0, 0),
+            "shadows": shadow_color,
+            "green": (0, 255, 0),
+            "red": (255, 0, 0),
         }
-        
+
         self.render_surface = pygame.Surface((self.render_width, self.render_height))
-        self.render_surface.set_colorkey(self.colors['black'])
+        self.render_surface.set_colorkey(self.colors["black"])
 
         self.last_player_center = (0, 0)
 
     def update(self, debug=False):
-        if (int(self.player.center[0]), int(self.player.center[1])) != self.last_player_center:
-            self.last_player_center = (int(self.player.center[0]), int(self.player.center[1]))
-            self.render_surface.fill(self.colors['black'])
+        if (
+            int(self.player.center[0]),
+            int(self.player.center[1]),
+        ) != self.last_player_center:
+            self.last_player_center = (
+                int(self.player.center[0]),
+                int(self.player.center[1]),
+            )
+            self.render_surface.fill(self.colors["black"])
 
             for wall in self.map.inside_walls:
-                nearest_point = list(ops.nearest_points(geometry.Point(self.player.center), wall.shapely)[1].coords)[0]
-                wall.distance = round(((nearest_point[0] - self.player.center[0]) ** 2 + (nearest_point[1] - self.player.center[1]) ** 2) ** .5, 2)
+                nearest_point = list(
+                    ops.nearest_points(
+                        geometry.Point(self.player.center), wall.shapely
+                    )[1].coords
+                )[0]
+                wall.distance = round(
+                    (
+                        (nearest_point[0] - self.player.center[0]) ** 2
+                        + (nearest_point[1] - self.player.center[1]) ** 2
+                    )
+                    ** 0.5,
+                    2,
+                )
 
             wall_shadows = []
 
@@ -60,22 +77,22 @@ class ShadowCaster:
                     vx = corner[0] - self.player.center[0]
                     vy = corner[1] - self.player.center[1]
 
-                    evx = vx / (vx ** 2 + vy ** 2) ** .5
-                    evy = vy / (vx ** 2 + vy ** 2) ** .5
+                    evx = vx / (vx**2 + vy**2) ** 0.5
+                    evy = vy / (vx**2 + vy**2) ** 0.5
 
                     if evx < 0:
                         shadow_length_x = (0 - corner[0]) / evx
                     elif evx > 0:
                         shadow_length_x = (self.render_width - corner[0]) / evx
                     else:
-                        shadow_length_x = 10 ** 10
+                        shadow_length_x = 10**10
 
                     if evy < 0:
                         shadow_length_y = (0 - corner[1]) / evy
                     elif evy > 0:
                         shadow_length_y = (self.render_height - corner[1]) / evy
                     else:
-                        shadow_length_y = 10 ** 10
+                        shadow_length_y = 10**10
 
                     shadow_length = min(shadow_length_x, shadow_length_y)
 
@@ -89,11 +106,22 @@ class ShadowCaster:
                     new_points.append(new_point)
 
                     if debug:
-                        pygame.draw.circle(self.render_surface, self.colors['red'], corner, 2)
-                        pygame.draw.circle(self.render_surface, self.colors['green'], new_point, 2)
+                        pygame.draw.circle(
+                            self.render_surface, self.colors["red"], corner, 2
+                        )
+                        pygame.draw.circle(
+                            self.render_surface, self.colors["green"], new_point, 2
+                        )
 
-                        pygame.draw.aaline(self.render_surface, self.colors['red'], self.player.center, corner)
-                        pygame.draw.aaline(self.render_surface, self.colors['green'], corner, new_point)
+                        pygame.draw.aaline(
+                            self.render_surface,
+                            self.colors["red"],
+                            self.player.center,
+                            corner,
+                        )
+                        pygame.draw.aaline(
+                            self.render_surface, self.colors["green"], corner, new_point
+                        )
 
                 x_values = [i[0] for i in new_points]
                 y_values = [i[1] for i in new_points]
@@ -146,7 +174,9 @@ class ShadowCaster:
                 shadow_rect = pygame.Rect(x, y, width, height)
                 wall_shadows.append(Shadow(shadow_rect, shadow_shape))
 
-                pygame.draw.polygon(self.render_surface, self.colors['shadows'], shadow_shape)
+                pygame.draw.polygon(
+                    self.render_surface, self.colors["shadows"], shadow_shape
+                )
 
     def render(self, surface):
         surface.blit(self.render_surface, (0, 0))
