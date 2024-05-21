@@ -1,0 +1,13 @@
+version: 2
+updates:
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    open-pull-requests-limit: 10
+    versioning-strategy: "auto"
+    ignore:
+      - dependency-name: "some-package"
+        versions: [">=2.0.0,<3.0.0"]
+      - dependency-name: "another-package"
+        versions: [">=1.0.0,<2.0.0"]
