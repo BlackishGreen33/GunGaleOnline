@@ -4,7 +4,7 @@ import time
 
 import bullet
 import pygame
-from config import ANIMATIONS_PATH, TILE_SIZE, WINDOW_HEIGHT, WINDOW_WIDTH
+from config import *
 
 
 def load_animation(path, length):
@@ -173,7 +173,7 @@ class Player:
 
     def update(self, enemies=None):
         self.dt = time.time() - self.last_time
-        self.dt *= 120
+        self.dt *= FPS
         self.last_time = time.time()
 
         if self.reloading:

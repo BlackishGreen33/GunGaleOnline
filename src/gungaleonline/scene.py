@@ -546,12 +546,6 @@ class ClientScene(MainScene):
 
 class MenuScene:
     def __init__(self, menu):
-        COLOR = {
-            "background": (125, 112, 113),
-            "text": (223, 246, 245),
-            "shadows": (48, 44, 46),
-        }
-
         self.screen_width, self.screen_height = WINDOW_WIDTH, WINDOW_HEIGHT
         self.screen_dimensions = (self.screen_width, self.screen_height)
 
