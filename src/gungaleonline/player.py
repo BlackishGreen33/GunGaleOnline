@@ -4,7 +4,7 @@ import time
 
 import bullet
 import pygame
-from config import ANIMATIONS_PATH, TILE_SIZE
+from config import ANIMATIONS_PATH, TILE_SIZE, WINDOW_HEIGHT, WINDOW_WIDTH
 
 
 def load_animation(path, length):
@@ -16,8 +16,8 @@ def load_animation(path, length):
 
 
 def to_renderer_position(pos):
-    new_x = (1024 * pos[0]) / 1024
-    new_y = (576 * pos[1]) / 576
+    new_x = (WINDOW_WIDTH * pos[0]) / WINDOW_WIDTH
+    new_y = (WINDOW_HEIGHT * pos[1]) / WINDOW_HEIGHT
     return new_x, new_y
 
 

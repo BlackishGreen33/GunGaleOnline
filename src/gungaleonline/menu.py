@@ -1,5 +1,5 @@
 import pygame
-from config import COLOR, FONT_PATH, FONT_SIZE_MD
+from config import COLOR, FONT_PATH, FONT_SIZE_MD, WINDOW_HEIGHT, WINDOW_WIDTH
 
 
 class Button:
@@ -142,7 +142,7 @@ class Menu:
 
         self.alignment = alignment
         if self.alignment:
-            self.render_width, self.render_height = 1024, 576
+            self.render_width, self.render_height = WINDOW_WIDTH, WINDOW_HEIGHT
             self.render_dimensions = (self.render_width, self.render_height)
 
             if self.alignment == "center":
