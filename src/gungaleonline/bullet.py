@@ -1,7 +1,7 @@
 import time
 
 import pygame
-from config import ANIMATIONS_PATH, FPS
+from config import ANIMATIONS_PATH, FPS, WINDOW_HEIGHT, WINDOW_WIDTH
 
 animations = {}
 
@@ -13,8 +13,8 @@ def load_animation(path, length):
 
 
 def to_renderer_position(pos):
-    new_x = (1024 * pos[0]) / 1920
-    new_y = (576 * pos[1]) / 1080
+    new_x = (WINDOW_WIDTH * pos[0]) / 1920
+    new_y = (WINDOW_HEIGHT * pos[1]) / 1080
     return new_x, new_y
 
 
