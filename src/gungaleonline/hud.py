@@ -8,32 +8,38 @@ from player import *
 class Hud:
     def __init__(self, p: Player):
         self.player = p
-
         self.last_weapon = self.player.active_weapon
         self.last_ammo = self.player.ammo.copy()
         self.last_hearts = self.player.hearts
         self.last_reload = 0
-
         self.full_reload_duration = 60
         self.full_reload_count = 0
-
         self.last_time = time.time()
         self.dt = 1
+        self._load_resources()
+        self._render_surfaces()
 
+        self.render_hearts()
+        self.render_bullets()
+        self.render_weapons()
+        self.render_reload(self.last_reload)
+
+    def _load_resources(self):
         self.font = pygame.font.Font(FONT_PATH, FONT_SIZE_XS)
 
-        self.heart_images = [
-            ICONS[key] for key in ["heart", "heart_half", "heart_empty"]
-        ]
-        self.bullet_images = [ICONS[key] for key in ["bullet", "bullet_empty"]]
-        self.weapon_images = [ICONS[key] for key in ["knife", "pistol", "rifle"]]
-        self.reload_images = [
-            ICONS[key]
-            for key in ["reload_1", "reload_2", "reload_3", "reload_4", "reload_5"]
-        ]
+        self.heart_images = self._load_images(["heart", "heart_half", "heart_empty"])
+        self.bullet_images = self._load_images(["bullet", "bullet_empty"])
+        self.weapon_images = self._load_images(["knife", "pistol", "rifle"])
+        self.reload_images = self._load_images(
+            ["reload_1", "reload_2", "reload_3", "reload_4", "reload_5"]
+        )
         self.border_20x20 = ICONS["border_20x20"]
         self.border_36x20 = ICONS["border_36x20"]
 
+    def _load_images(self, image_keys):
+        return [ICONS[key] for key in image_keys]
+
+    def _render_surfaces(self):
         self.heart_render = pygame.Surface(
             (
                 self.heart_images[0].get_width() * self.player.max_hearts,
@@ -41,7 +47,6 @@ class Hud:
             )
         )
         self.heart_render.set_colorkey(COLOR["black"])
-
         self.bullets_render = pygame.Surface(
             (
                 self.bullet_images[0].get_width() * 10,
@@ -50,7 +55,6 @@ class Hud:
             )
         )
         self.bullets_render.set_colorkey(COLOR["black"])
-
         self.weapons_render = pygame.Surface(
             (
                 self.border_36x20.get_width(),
@@ -58,16 +62,10 @@ class Hud:
             )
         )
         self.weapons_render.set_colorkey(COLOR["black"])
-
         self.reload_render = pygame.Surface(
             (self.reload_images[0].get_width(), self.reload_images[0].get_height())
         )
         self.reload_render.set_colorkey(COLOR["black"])
-
-        self.render_hearts()
-        self.render_bullets()
-        self.render_weapons()
-        self.render_reload(self.last_reload)
 
     def update(self):
         self.dt = time.time() - self.last_time

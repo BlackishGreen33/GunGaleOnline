@@ -7,16 +7,13 @@ class Button:
         self.title = title
         self.rect = rect
         self.image = image
-
         self.font = pygame.font.Font(FONT_PATH, FONT_SIZE_MD)
 
         if not self.image:
             self.image = pygame.Surface((self.rect.width, self.rect.height))
             self.image.set_colorkey(COLOR["black"])
 
-            self.image.blit(
-                self.font.render(self.title, True, COLOR["text"]), (0, 0)
-            )
+            self.image.blit(self.font.render(self.title, True, COLOR["text"]), (0, 0))
 
         self.pressed = False
 
@@ -108,9 +105,7 @@ class Text:
 
         self.font = pygame.font.Font(FONT_PATH, FONT_SIZE_MD)
 
-        self.text_render = self.font.render(
-            self.text, True, color, COLOR["background"]
-        )
+        self.text_render = self.font.render(self.text, True, color, COLOR["background"])
         self.rect = self.text_render.get_rect()
 
         self.render_surface = pygame.Surface((self.rect.width, self.rect.height))
