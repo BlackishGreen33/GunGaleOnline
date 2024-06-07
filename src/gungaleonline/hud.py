@@ -112,7 +112,8 @@ class Hud:
         )
 
         surface.blit(
-            self.weapons_render, (WINDOW_WIDTH - self.weapons_render.get_width() - 36, 36)
+            self.weapons_render,
+            (WINDOW_WIDTH - self.weapons_render.get_width() - 36, 36),
         )
 
         if self.player.reloading or self.full_reload_count > 0:
@@ -198,7 +199,7 @@ class Hud:
 
         if self.player.active_weapon == "rifle":
             pygame.draw.rect(
-                self.weapons_render, COLOR["selected_weapon"], (4, 4, 64, 32)
+                self.weapons_render, COLOR["selected_weapon"], (4, 4, 64, TILE_SIZE)
             )
         self.weapons_render.blit(self.border_36x20, (0, 0))
         self.weapons_render.blit(self.weapon_images[2], (4, 4))
@@ -207,27 +208,38 @@ class Hud:
             pygame.draw.rect(
                 self.weapons_render,
                 COLOR["selected_weapon"],
-                (4 + 32, self.border_36x20.get_height() + 5 + 4, 32, 32),
+                (
+                    4 + TILE_SIZE,
+                    self.border_36x20.get_height() + 5 + 4,
+                    TILE_SIZE,
+                    TILE_SIZE,
+                ),
             )
         self.weapons_render.blit(
-            self.border_20x20, (32, self.border_36x20.get_height() + 5)
+            self.border_20x20, (TILE_SIZE, self.border_36x20.get_height() + 5)
         )
         self.weapons_render.blit(
-            self.weapon_images[1], (4 + 32, self.border_36x20.get_height() + 5 + 4)
+            self.weapon_images[1],
+            (4 + TILE_SIZE, self.border_36x20.get_height() + 5 + 4),
         )
 
         if self.player.active_weapon == "knife":
             pygame.draw.rect(
                 self.weapons_render,
                 COLOR["selected_weapon"],
-                (4 + 32, self.border_36x20.get_height() * 2 + 5 * 2 + 4, 32, 32),
+                (
+                    4 + TILE_SIZE,
+                    self.border_36x20.get_height() * 2 + 5 * 2 + 4,
+                    TILE_SIZE,
+                    TILE_SIZE,
+                ),
             )
         self.weapons_render.blit(
-            self.border_20x20, (32, self.border_36x20.get_height() * 2 + 5 * 2)
+            self.border_20x20, (TILE_SIZE, self.border_36x20.get_height() * 2 + 5 * 2)
         )
         self.weapons_render.blit(
             self.weapon_images[0],
-            (4 + 32, self.border_36x20.get_height() * 2 + 5 * 2 + 4),
+            (4 + TILE_SIZE, self.border_36x20.get_height() * 2 + 5 * 2 + 4),
         )
 
     def render_reload(self, progress):

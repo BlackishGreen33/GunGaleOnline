@@ -4,7 +4,7 @@ import time
 
 import bullet
 import pygame
-from config import ANIMATIONS_PATH
+from config import ANIMATIONS_PATH, TILE_SIZE
 
 
 def load_animation(path, length):
@@ -25,7 +25,7 @@ class RemotePlayer:
     def __init__(self, map, team):
         self.map = map
         self.team = team
-        self.center = (4 * 32, 3 * 32)
+        self.center = (4 * TILE_SIZE, 3 * TILE_SIZE)
         self.rotation = 0
         self.active_weapon = "pistol"
         self.hearts = 3
