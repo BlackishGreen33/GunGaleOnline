@@ -1,7 +1,7 @@
 import csv
 
 import pygame
-from config import COLOR, TILES_PATH
+from config import COLOR, NOT_EXISTS, TILE_SIZE, TILES_PATH
 from shapely import geometry
 
 
@@ -27,11 +27,11 @@ class Wall:
         y = self.tiles[0].rect.y
 
         if self.vertical:
-            width = 32
-            height = 32 * len(self.tiles)
+            width = TILE_SIZE
+            height = TILE_SIZE * len(self.tiles)
         else:
-            width = 32 * len(self.tiles)
-            height = 32
+            width = TILE_SIZE * len(self.tiles)
+            height = TILE_SIZE
 
         self.distance = 0
 
@@ -47,9 +47,9 @@ class Wall:
         self.image = pygame.Surface((width, height))
         for i, tile in enumerate(self.tiles):
             if vertical:
-                self.image.blit(tile.image, (0, i * 32))
+                self.image.blit(tile.image, (0, i * TILE_SIZE))
             else:
-                self.image.blit(tile.image, (i * 32, 0))
+                self.image.blit(tile.image, (i * TILE_SIZE, 0))
 
         self.mask = pygame.mask.from_surface(self.image)
 
@@ -70,7 +70,7 @@ class Map:
         surface.blit(self.image, (0, 0))
 
     def render_map(self):
-        surface = pygame.Surface((len(self.map[0]) * 32, len(self.map) * 32))
+        surface = pygame.Surface((len(self.map[0]) * TILE_SIZE, len(self.map) * TILE_SIZE))
         surface.set_colorkey(COLOR["black"])
 
         found_h_wall = False
@@ -80,13 +80,13 @@ class Map:
 
         for i, line in enumerate(self.map):
             for j, tile in enumerate(line):
-                if tile != "-1":
+                if tile != NOT_EXISTS:
                     image = pygame.image.load(
                         f"{TILES_PATH}tile_{tile}.png"
                     ).convert_alpha()
-                    surface.blit(image, (j * 32, i * 32))
+                    surface.blit(image, (j * TILE_SIZE, i * TILE_SIZE))
 
-                    tile_object = Tile(image, pygame.Rect(j * 32, i * 32, 32, 32))
+                    tile_object = Tile(image, pygame.Rect(j * TILE_SIZE, i * TILE_SIZE, TILE_SIZE, TILE_SIZE))
                     self.tiles.append(tile_object)
 
                     if tile in ["0", "1", "2"]:

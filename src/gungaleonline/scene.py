@@ -29,10 +29,10 @@ class MainScene:
     def __init__(self, map_path, team):
         self.next_scene = None
 
-        self.screen_width, self.screen_height = 1024, 576
+        self.screen_width, self.screen_height = WINDOW_WIDTH, WINDOW_HEIGHT
         self.screen_dimensions = (self.screen_width, self.screen_height)
 
-        self.render_width, self.render_height = 1024, 576
+        self.render_width, self.render_height = WINDOW_WIDTH, WINDOW_HEIGHT
         self.render_dimensions = (self.render_width, self.render_height)
 
         self.font = pygame.font.Font(FONT_PATH, FONT_SIZE_SM)
@@ -40,7 +40,7 @@ class MainScene:
 
         self.map = map.Map(map_path)
 
-        self.player = player.Player((4 * 32, 3 * 32), self.map, team)
+        self.player = player.Player((4 * TILE_SIZE, 3 * TILE_SIZE), self.map, team)
 
         self.shadow_caster = shadow_caster.ShadowCaster(self.player, self.map)
 
@@ -139,7 +139,7 @@ class HostScene(MainScene):
 
         self.ip = ""
         self.port = port
-        self.buffer_size = 1024
+        self.buffer_size = WINDOW_WIDTH
         self.address = (self.ip, self.port)
 
         self.server = socket(AF_INET, SOCK_STREAM)
@@ -373,7 +373,7 @@ class ClientScene(MainScene):
         else:
             self.client_info = client_info
 
-        self.buffer_size = 1024
+        self.buffer_size = WINDOW_WIDTH
         self.address = (self.ip, self.port)
 
         self.client_socket = socket(AF_INET, SOCK_STREAM)
@@ -546,16 +546,10 @@ class ClientScene(MainScene):
 
 class MenuScene:
     def __init__(self, menu):
-        COLOR = {
-            "background": (125, 112, 113),
-            "text": (223, 246, 245),
-            "shadows": (48, 44, 46),
-        }
-
-        self.screen_width, self.screen_height = 1024, 576
+        self.screen_width, self.screen_height = WINDOW_WIDTH, WINDOW_HEIGHT
         self.screen_dimensions = (self.screen_width, self.screen_height)
 
-        self.render_width, self.render_height = 1024, 576
+        self.render_width, self.render_height = WINDOW_WIDTH, WINDOW_HEIGHT
         self.render_dimensions = (self.render_width, self.render_height)
 
         self.font = pygame.font.Font(FONT_PATH, FONT_SIZE_SM)
@@ -713,7 +707,7 @@ class MainMenuScene(MenuScene):
             )
             test_socket = socket(AF_INET, SOCK_STREAM)
             test_socket.connect(test_address)
-            session_info = json.loads(test_socket.recv(1024).decode("utf8"))
+            session_info = json.loads(test_socket.recv(WINDOW_WIDTH).decode("utf8"))
             test_socket.send(bytes("ping", "utf8"))
             test_socket.close()
 

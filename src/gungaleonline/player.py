@@ -4,7 +4,7 @@ import time
 
 import bullet
 import pygame
-from config import ANIMATIONS_PATH
+from config import *
 
 
 def load_animation(path, length):
@@ -16,8 +16,8 @@ def load_animation(path, length):
 
 
 def to_renderer_position(pos):
-    new_x = (1024 * pos[0]) / 1024
-    new_y = (576 * pos[1]) / 576
+    new_x = (WINDOW_WIDTH * pos[0]) / WINDOW_WIDTH
+    new_y = (WINDOW_HEIGHT * pos[1]) / WINDOW_HEIGHT
     return new_x, new_y
 
 
@@ -25,7 +25,7 @@ class RemotePlayer:
     def __init__(self, map, team):
         self.map = map
         self.team = team
-        self.center = (4 * 32, 3 * 32)
+        self.center = (4 * TILE_SIZE, 3 * TILE_SIZE)
         self.rotation = 0
         self.active_weapon = "pistol"
         self.hearts = 3
@@ -173,7 +173,7 @@ class Player:
 
     def update(self, enemies=None):
         self.dt = time.time() - self.last_time
-        self.dt *= 120
+        self.dt *= FPS
         self.last_time = time.time()
 
         if self.reloading:

@@ -1,7 +1,7 @@
 from threading import Thread
 
 import pygame
-from config import COLOR
+from config import COLOR, WINDOW_HEIGHT, WINDOW_WIDTH
 from scipy import spatial
 from shapely import geometry, ops
 
@@ -17,8 +17,8 @@ class ShadowCaster:
     def __init__(self, player, map):
         self.player = player
         self.map = map
-        self.render_width = 1024
-        self.render_height = 576
+        self.render_width = WINDOW_WIDTH
+        self.render_height = WINDOW_HEIGHT
 
         self.render_surface = pygame.Surface((self.render_width, self.render_height))
         self.render_surface.set_colorkey(COLOR["black"])

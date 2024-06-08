@@ -1,5 +1,5 @@
 import pygame
-from config import COLOR, FONT_PATH, FONT_SIZE_MD
+from config import COLOR, FONT_PATH, FONT_SIZE_MD, WINDOW_HEIGHT, WINDOW_WIDTH
 
 
 class Button:
@@ -7,16 +7,13 @@ class Button:
         self.title = title
         self.rect = rect
         self.image = image
-
         self.font = pygame.font.Font(FONT_PATH, FONT_SIZE_MD)
 
         if not self.image:
             self.image = pygame.Surface((self.rect.width, self.rect.height))
             self.image.set_colorkey(COLOR["black"])
 
-            self.image.blit(
-                self.font.render(self.title, True, COLOR["text"]), (0, 0)
-            )
+            self.image.blit(self.font.render(self.title, True, COLOR["text"]), (0, 0))
 
         self.pressed = False
 
@@ -108,9 +105,7 @@ class Text:
 
         self.font = pygame.font.Font(FONT_PATH, FONT_SIZE_MD)
 
-        self.text_render = self.font.render(
-            self.text, True, color, COLOR["background"]
-        )
+        self.text_render = self.font.render(self.text, True, color, COLOR["background"])
         self.rect = self.text_render.get_rect()
 
         self.render_surface = pygame.Surface((self.rect.width, self.rect.height))
@@ -147,7 +142,7 @@ class Menu:
 
         self.alignment = alignment
         if self.alignment:
-            self.render_width, self.render_height = 1024, 576
+            self.render_width, self.render_height = WINDOW_WIDTH, WINDOW_HEIGHT
             self.render_dimensions = (self.render_width, self.render_height)
 
             if self.alignment == "center":
