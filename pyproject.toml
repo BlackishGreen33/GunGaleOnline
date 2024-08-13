@@ -12,7 +12,7 @@ classifiers = [
 
 [tool.poetry.dependencies]
 python = "^3.11"
-pygame-ce = "^2.5.0"
+pygame-ce = "^2.5.1"
 shapely = "^2.0.5"
 scipy = "^1.14.0"
 
