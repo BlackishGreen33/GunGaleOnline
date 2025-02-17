@@ -14,7 +14,7 @@ classifiers = [
 python = "^3.11"
 pygame-ce = "^2.5.3"
 shapely = "^2.0.7"
-scipy = "^1.15.1"
+scipy = "^1.15.2"
 
 [tool.poetry.group.dev.dependencies]
 pylint = "^3.3.3"
