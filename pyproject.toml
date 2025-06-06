@@ -19,7 +19,7 @@ scipy = "^1.15.2"
 [tool.poetry.group.dev.dependencies]
 pylint = "^3.3.6"
 isort = "^6.0.1"
-pytest = "^8.3.5"
+pytest = "^8.4.0"
 tox = "^4.26.0"
 mkdocs = "^1.6.1"
 mkdocs-material = "^9.6.11"
