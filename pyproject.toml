@@ -25,7 +25,7 @@ mkdocs = "^1.6.1"
 mkdocs-material = "^9.6.17"
 pytest-pylint = "^0.21.0"
 pre-commit = "^4.2.0"
-pytest-mock = "^3.14.1"
+pytest-mock = "^3.15.0"
 
 [build-system]
 requires = ["poetry-core"]
