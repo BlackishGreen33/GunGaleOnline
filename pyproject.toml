@@ -18,7 +18,7 @@ scipy = "^1.16.0"
 
 [tool.poetry.group.dev.dependencies]
 pylint = "^3.3.6"
-isort = "^6.0.1"
+isort = "^6.1.0"
 pytest = "^8.4.1"
 tox = "^4.28.1"
 mkdocs = "^1.6.1"
