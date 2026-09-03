@@ -17,7 +17,7 @@ shapely = "^2.0.7"
 scipy = "^1.17.1"
 
 [tool.poetry.group.dev.dependencies]
-pylint = "^3.3.6"
+pylint = "^4.0.5"
 isort = "^6.0.1"
 pytest = "^9.0.1"
 tox = "^4.46.3"
